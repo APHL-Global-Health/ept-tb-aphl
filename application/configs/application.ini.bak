@@ -18,9 +18,9 @@ resources.frontController.plugins.PreSetter = "Pt_Plugins_PreSetter"
 
 resources.db.adapter = PDO_MYSQL
 resources.db.params.host = localhost
-resources.db.params.username = root
-resources.db.params.password = "mysqlroot"
-resources.db.params.dbname = eanalyze
+resources.db.params.username = "username"
+resources.db.params.password = "password"
+resources.db.params.dbname = ept_tb_database
 resources.db.params.charset = "utf8"
 resources.db.params.driver_options.1002 = "SET NAMES utf8"
 
@@ -28,8 +28,8 @@ resources.frontController.moduleDirectory = APPLICATION_PATH "/modules"
 
 email.host = smtp.gmail.com
 email.config.port = 587
-email.config.username = tbeptmanager@gmail.com
-email.config.password = "mko)(*&^)"
+email.config.username = username@email.com
+email.config.password = "email_password"
 email.config.ssl = tls
 email.config.auth = login
 
@@ -44,17 +44,5 @@ phpSettings.display_startup_errors = 1
 phpSettings.display_errors = 1
 resources.frontController.params.displayExceptions = 1
 
-resources.db.adapter = PDO_MYSQL
-resources.db.params.host = localhost
-resources.db.params.username = root
-resources.db.params.password = "mysqlroot"
-resources.db.params.dbname = eanalyze
+domain = http://tb/
 
-domain = http://ept/
-
-email.host = smtp.gmail.com
-email.config.port = 587
-email.config.username = tbeptmanager@gmail.com
-email.config.password = "mko)(*&^)"
-email.config.ssl = tls
-email.config.auth = login

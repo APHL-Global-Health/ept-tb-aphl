@@ -2300,7 +2300,7 @@ CREATE TABLE `r_tb_assay` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `eanalyze`.`r_tb_assay` (`name`, `short_name`) VALUES ('Xpert MTB/RIF', 'MTB/RIF');
+INSERT INTO `r_tb_assay` (`name`, `short_name`) VALUES ('Xpert MTB/RIF', 'MTB/RIF');
 
 -- Bryan Richards: 16 Jan 2017
 CREATE TABLE `instrument` (
@@ -2319,18 +2319,18 @@ CREATE TABLE `instrument` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Bryan Richards: 18 Jan 2017
-ALTER TABLE `eanalyze`.`shipment`
+ALTER TABLE `shipment`
 ADD COLUMN `follows_up_from` INT(11) NULL DEFAULT NULL AFTER `status`,
 ADD INDEX `shipment_ibfk_3_idx` (`follows_up_from` ASC);
-ALTER TABLE `eanalyze`.`shipment`
+ALTER TABLE `shipment`
 ADD CONSTRAINT `shipment_ibfk_3`
   FOREIGN KEY (`follows_up_from`)
-  REFERENCES `eanalyze`.`shipment` (`shipment_id`)
+  REFERENCES `shipment` (`shipment_id`)
   ON DELETE SET NULL
   ON UPDATE NO ACTION;
 
 -- Bryan Richards: 19 Jan 2017
-ALTER TABLE `eanalyze`.`system_admin`
+ALTER TABLE `system_admin`
 	ADD COLUMN `is_ptcc_coordinator` INT(1) UNSIGNED NULL DEFAULT NULL AFTER `status`;
 
 
@@ -2358,3 +2358,17 @@ CREATE TABLE `push_notification_token` (
 	KEY `push_notification_token` (`push_notification_token`),
 	CONSTRAINT `dm_id` FOREIGN KEY (`dm_id`) REFERENCES `data_manager` (`dm_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE country_shipment_map (
+	country_id int(11) UNSIGNED NOT NULL,
+	shipment_id int(11) UNSIGNED NOT NULL,
+	due_date_text varchar(50)
+);
+
+CREATE TABLE response_not_tested_reason (
+	not_tested_reason_id int(11) UNSIGNED NOT NULL PRIMARY KEY,
+	not_tested_reason varchar(500) DEFAULT NULL,
+  `status` varchar(45) NOT NULL DEFAULT 'active'
+);
+
+ALTER TABLE `shipment_participant_map` ADD `is_pt_test_not_performed` VARCHAR(45) NULL DEFAULT NULL AFTER `shipment_test_date`, ADD `not_tested_reason`INT(11) NULL DEFAULT NULL AFTER `is_pt_test_not_performed`, ADD `pt_test_not_performed_comments` TEXT NULL DEFAULT NULL AFTER `not_tested_reason`;

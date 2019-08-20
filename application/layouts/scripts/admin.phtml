@@ -99,18 +99,18 @@
                                     Participant Login Map
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'participants','action'=>'pending'),'default',true); ?>">
                                     Pending PE Participants
                                 </a>
                             </li>
                             <?php if ($adminSession->is_ptcc_coordinator == 0) { ?>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'enrollments'),'default',true); ?>">
                                     Scheme Enrollments
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'testkit'),'default',true); ?>">
                                     Testkits
                                 </a>
@@ -160,17 +160,17 @@
                                     Publications
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'partners'),'default',true); ?>">
                                     Partners
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'vl-assay'),'default',true); ?>">
                                     Vl Assay
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'admin','controller'=>'eid-assay'),'default',true); ?>">
                                     Eid Assay
                                 </a>
@@ -237,23 +237,23 @@
 	                <li  <?php echo (isset($this->layout()->pageName) && $this->layout()->pageName == 'report') ? "class='active dropdown'" : "class='dropdown'"; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-bar-chart"></i>&nbsp;&nbsp;Reports <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'detailed'),'default',true); ?>">
                                     Participant Response Report
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'participant-performance'),'default',true); ?>">
                                     Participant Performance Report
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'corrective-actions'),'default',true); ?>">
                                     Corrective Actions Report
                                 </a>
                             </li>
                             <?php if($hideShipmentResponseReport == false){ ?>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'shipment-response'),'default',true); ?>">
                                     Shipment Response Report
                                 </a>
@@ -267,23 +267,23 @@
                                 </a>
                             </li>
                             <?php } ?>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'shipments'),'default',true); ?>">
                                     Shipments Report
                                 </a>
                             </li>
                             <?php if ($adminSession->is_ptcc_coordinator == 0) { ?>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'shipments','action'=>'vl-sample-analysis'),'default',true); ?>">
                                     Vl Sample Analysis
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'shipments','action'=>'vl-assay-distribution'),'default',true); ?>">
                                     Vl Assay Distribution
                                 </a>
                             </li>
-                            <li>
+                            <li style="display: none;">
                                 <a href="<?php echo $this->url(array('module'=>'reports','controller'=>'annual','action'=>'index'),'default',true); ?>">
                                     Annual Report
                                 </a>
