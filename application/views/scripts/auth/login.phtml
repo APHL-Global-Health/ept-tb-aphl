@@ -1,97 +1,100 @@
-<style>
-    td {
-		padding:5px !important;
-	}
-
-	th {
-		text-align: right;
-	}
-
-	.login-box, .register-box {
-		margin: 0 auto !important;
-	}
-
-	.login-logo, .register-logo {
-		font-size:30px;
-	}
-</style>
 <section class="content">
-    <div class="login-box">
+
+    <div class="login-box home-purple"
+         style="max-width: 430px; margin: auto; padding:15px;opacity: 0.7;margin-top: 100px; ">
         <div class="login-logo">
-            <a href="javascript:void(0);">Login - <span> Proficiency Testing</span></a>
+            <h2 class="color:white;">Login - <span> Proficiency Testing</span></h2>
+
         </div><!-- /.login-logo -->
+
         <div class="login-box-body">
+            <?php if (isset($_GET['status'])) { ?>
+                <div class="alert btn-success" style="overflow: auto;">
+                    <?php echo $_GET['status'] ?>
+                </div>
+            <?php } ?>
             <form name="loginForm" id="loginForm" class="form-vertical" method="post"
-                  action="<?php echo $this->url(array("controller" => "auth", "action" => "login"), null, true) ?>"
-                  onsubmit="validateLogin();return false;">
+                  onsubmit="validateLogin();return false;"
+                  action="<?php echo $this->url(array("controller" => "auth", "action" => "login"), null, true) ?>">
+
+
                 <div class="form-group">
-                    <label for="username" class="uname" data-icon="u"> Your email or username </label>
-                    <input id="username" name="username" class="isRequired form-control" title="Please enter your email or username" type="text" placeholder="myusername or mymail@mail.com"/>
+                    <label for="username" class="uname" data-icon="u"> Email address </label>
+
+                    <input id="username" name="username" class="isRequired form-control"
+                           title="Please enter your email address" type="text" placeholder="mymail@mail.com"/>
+
                 </div>
                 <div class="form-group">
-                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
-                    <input id="password" name="password" class="isRequired form-control" title="Please enter your password" type="password" placeholder="eg. X8df!90EO" />
+                    <label for="password" class="youpasswd" data-icon="p"> Password </label>
+
+                    <input id="password" name="password" class="isRequired form-control"
+                           title="Please enter your password" type="password" placeholder="eg. X8df!90EO"/>
+
                 </div>
                 <div class="form-group">
+
+
                 </div>
-                <div class="box-footer" style="text-align: center">
-                    <input type="submit" class="btn btn-lg btn-primary" value="Sign in"/>
-                    <a href="/auth/reset-password" style="font-size:0.8em;color:red;">Forgot Password ?</a>
-                    <br />
-                    <br />
-                    <a href="/contact-us" style="">Don't have a login ? Click here to contact us</a>
+                <div class="box-footer">
+                    <input type="submit" class="btn col-md-12 btn-lg btn-primary" value="Sign in"/>
                 </div>
+                <div>
+                    <a href="/auth/reset-password" style="font-size:0.8em;color:white;">Forgot Password?</a>
+                    <!--<a href="/contact-us" style="">Don't have a login ? Click here to contact us</a>-->
+
+                </div>
+
             </form>
         </div>
     </div>
 </section>
-<script type="text/javascript" src="<?php echo $this->baseUrl("js/jquery.blockUI.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl("js/deforayValidation.js"); ?>"></script>
 <script type="text/javascript">
-  $(document).ready(function() {
-    <?php
-      $alertMsg = new Zend_Session_Namespace('alertSpace');
-      if (isset($alertMsg->message) && $alertMsg->message != "") { ?>
-    alert("<?php echo $alertMsg->message;?>");
-    <?php
-          $alertMsg->message="";
-          unset($alertMsg->message);
-      } ?>
-  });
 
-  function getCaptcha(captchaDivId) {
-    $.blockUI();
-    var d = new Date();
-    var randstr = 'r-'+d.getFullYear()+d.getSeconds()+d.getMilliseconds()+Math.random();
-    $("#"+captchaDivId).attr("src" , '/captcha/'+randstr);
-    $("#"+captchaDivId).load(function(){
-      $.unblockUI();
-    });
-  }
+    $(document).ready(function () {
+        <?php
+        $alertMsg = new Zend_Session_Namespace('alertSpace');
+        if(isset($alertMsg->message) && $alertMsg->message != ""){
+        ?>
+        alert("<?php echo $alertMsg->message;?>");
+        <?php
+        $alertMsg->message = "";
+        unset($alertMsg->message);
+        }
+        ?>
+    })
 
-  function validateLogin(){
-    var flag = deforayValidator.init({
-      formId: 'loginForm'
-    });
-    if (flag) {
-      var challenge_field = document.getElementById("challengeResponse").value;
-      if (challenge_field != "" ) {
-        $.post("<?php echo $this->url(array(), 'checkCaptchaRoute', true); ?>",
-          { challenge_field:challenge_field, format: "html"},
-          function(data) {
-            if (data == 'fail') {
-              alert("Text you entered from the image is incorrect. Please try again");
-              getCaptcha('capChaw');
-              document.getElementById("challengeResponse").value="";
-              return false;
-            } else {
-              $.blockUI();
-              document.getElementById('loginForm').submit();
-            }
+
+    function getCaptcha(captchaDivId) {
+        $.blockUI();
+        var d = new Date();
+        var randstr = 'r-' + d.getFullYear() + d.getSeconds() + d.getMilliseconds() + Math.random();
+        $("#" + captchaDivId).attr("src", '/captcha/' + randstr);
+        $("#" + captchaDivId).load(function () {
+            $.unblockUI();
         });
-      } else {
-        alert("Please enter the text from the image to proceed.");
-      }
     }
-  }
+
+    function validateLogin() {
+        flag = deforayValidator.init({
+            formId: 'loginForm'
+        });
+        if (flag) {
+            challenge_field = document.getElementById("challengeResponse").value;
+            if (challenge_field != "") {
+                $.post("<?php echo $this->url(array(), 'checkCaptchaRoute', true); ?>", {
+                        challenge_field: challenge_field,
+                        format: "html"
+                    },
+                    function (data) {
+
+                        $.blockUI();
+                        document.getElementById('loginForm').submit();
+                    });
+            } else {
+                alert("Please enter the text from the image to proceed.");
+            }
+        }
+    }
+
 </script>

@@ -1,3 +1,6 @@
+<?php
+  $config = new Zend_Config_Ini(APPLICATION_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "config.ini", APPLICATION_ENV);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link rel="shortcut icon" href="../../assets/ico/favicon.png" />
-    <title>ePT - Admin Login</title>
+    <title><?php echo $config->applicationName; ?> - Admin Login</title>
     <link rel="icon" href='<?php echo $this->baseUrl("favicon.ico?v=2"); ?>' />
     <!-- Bootstrap core CSS -->
     <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">-->
@@ -143,13 +146,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">ePT Admin</a>
+                <a class="navbar-brand" href="/" title="<?php echo $config->applicationName; ?>">
+                    <?php echo $config->applicationShortName; ?>
+                </a>
             </div>
             <img src="<?php echo $this->baseUrl(); ?>/images/country/country-flag.jpg" style="max-height:50px;margin:4px auto !important;float:right;"/>
         </div>
     </div>
     <div class="container">
-        <?php $config = new Zend_Config_Ini(APPLICATION_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "config.ini",APPLICATION_ENV); ?>
         <form class="form-signin" name="loginForm" id="loginForm" method="post" action="<?php echo $this->url(array("module"=>"admin","controller" => "login", "action" => "index"), null, true) ?>">
             <div style="text-align:center;">
                 <img src="<?php echo $this->baseUrl(); ?>/images/country/institute-logo.jpg" style="max-height:120px;margin:0 auto !important;"/>
@@ -172,8 +176,8 @@
         </form>
     </div> <!-- /container -->
     <div>
-        <p style="text-align: center;">Funded by <a href="http://www.taskforce.org">Taskforce</a></p>
-	</div>
+      <div class="container"><center><?php echo $config->applicationCopyright; ?></center></div>
+  	</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
