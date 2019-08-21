@@ -14,7 +14,7 @@ class Application_Model_DbTable_SchemeList extends Zend_Db_Table_Abstract
     }
 
     public function countEnrollmentSchemes(){
-        $result="";
+        $result=[];
         $schemes = $this->fetchAll($this->select()->where("status='active'"));
 
         $authNameSpace = new Zend_Session_Namespace('administrators');
