@@ -1,0 +1,163 @@
+/*
+ * GLOBAL CSS File
+ */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding-bottom: 10px;
+    /*padding-top: 40px;*/
+    background-color: #FFF;
+    margin-bottom: 100px;
+    /*margin-top: 60px;*/
+}
+
+.navbar .container .country-flag {
+    max-height: 50px;
+    margin: 4px auto !important;
+    float: right;
+}
+
+.navbar-default .navbar-toggle {
+    background-color: #1a242f;
+    border-color: #1a242f;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #1a242f;
+}
+
+.container .form-signin {
+    max-width: 430px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.container .form-signin .form-signin-heading,
+.container .form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.container .form-signin .checkbox {
+    font-weight: normal;
+}
+
+.container .form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.container .form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.main-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /*height: 100px;*/
+    overflow: hidden;
+    background: unset;
+    color: #FFF;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.footer-items, a.footer-items:visited {
+    color: #FFF;
+    display: inline-block;
+    padding: 5px 5px;
+    text-decoration: none;
+}
+
+a.footer-items:hover {
+    color: #FFF;
+    text-decoration: none;
+    background: #000;
+}
+
+.faq-question {
+    color: #F33;
+}
+
+.faq-question, .faq-answer {
+    padding: 10px;
+}
+
+.home-navbar{
+    opacity: 1.5;
+    background-color: unset;
+    border: none;
+}
+.home-purple {
+    margin: auto;
+    background-color: purple;
+    color: white;
+    /*opacity: 0.5;*/
+    margin-top: 75px;
+}
+
+.purple-button:hover{
+    color: white;
+    background-color: rgba(173,76,198,0.93);
+}
+
+.home-menu {
+    background-color: purple !important;
+    opacity: 1.0;
+}
+
+a .home-menu {
+    color: white;
+}
+.footer-items:hover{
+    background-color: purple!important;
+    color:purple;
+}
+
+.status-label{
+    padding:10px 15px;
+    border:1px solid #F93;
+    border-radius:4px;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .navbar .container .country-flag, .country-flag {
+        display: none;
+    }
+
+    body {
+        background-image: 0;
+    }
+}
+
+@media print {
+    .btn {
+        display: none;
+    }
+    .main-footer{
+        display: none;
+    }
+
+    .content .box {
+        border: 0;
+    }
+    .box-body #view-content {
+        border: 2px solid #000;
+        padding: 15px;
+    }
+}
+
