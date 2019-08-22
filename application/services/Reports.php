@@ -4662,11 +4662,11 @@ class Application_Service_Reports {
             )
         );
         $query = $db->query("SELECT FlattenedEvaluationResults.`Country`, FlattenedEvaluationResults.`Site No.`, FlattenedEvaluationResults.`Site Name/Location`, FlattenedEvaluationResults.`PT-ID`,
-    FlattenedEvaluationResults.Submitted, FlattenedEvaluationResults.`Submission Excluded`,
+    FlattenedEvaluationResults.`Submitted`, FlattenedEvaluationResults.`Submission Excluded`,
     FlattenedEvaluationResults.`Date PT Received`, FlattenedEvaluationResults.`Date PT Results Reported`,
     
-    JSON_UNQUOTE(FlattenedEvaluationResults.attributes_json->\"$.mtb_rif_kit_lot_no\") AS `MTB/RIF Assay Kit Lot Number`,
-    STR_TO_DATE(JSON_UNQUOTE(FlattenedEvaluationResults.attributes_json->\"$.expiry_date\"), '%d-%b-%Y') AS `Expiry Date`,
+    JSON_UNQUOTE(JSON_VALUE(FlattenedEvaluationResults.`attributes_json`, '$.mtb_rif_kit_lot_no')) AS `MTB/RIF Assay Kit Lot Number`,
+    STR_TO_DATE(JSON_UNQUOTE(JSON_VALUE(FlattenedEvaluationResults.`attributes_json`,'$.expiry_date')), '%d-%b-%Y') AS `Expiry Date`,
     
     FlattenedEvaluationResults.`Date of last instrument calibration`, FlattenedEvaluationResults.`Participated`, FlattenedEvaluationResults.`Reason for No Submission`,
     FlattenedEvaluationResults.`1-Date Tested`, FlattenedEvaluationResults.`1-MTB`, FlattenedEvaluationResults.`1-Rif`, FlattenedEvaluationResults.`1-Probe D`,
@@ -4711,7 +4711,7 @@ SELECT countries.iso_name AS `Country`,
     END AS `Submission Excluded`,
     shipment_participant_map.shipment_receipt_date AS `Date PT Received`,
     CAST(shipment_participant_map.shipment_test_report_date AS DATE) AS `Date PT Results Reported`,
-    CAST(attributes AS JSON) AS attributes_json,
+    attributes AS attributes_json,
     GREATEST(MAX(instrument.instrument_last_calibrated_on),
              response_result_tb_1.instrument_last_calibrated_on,
              response_result_tb_2.instrument_last_calibrated_on,
