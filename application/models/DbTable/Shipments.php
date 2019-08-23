@@ -129,6 +129,7 @@ class Application_Model_DbTable_Shipments extends Zend_Db_Table_Abstract {
 
         $results = $this->getAdapter()->fetchAll($query);
 
+        $output = [];
         foreach ($results as $result) {
             $output[] = $result;
         }
