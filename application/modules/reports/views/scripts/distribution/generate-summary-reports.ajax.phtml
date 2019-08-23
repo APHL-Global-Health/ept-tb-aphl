@@ -376,7 +376,7 @@ if ($this->result['shipment'] != "") {
         $pdf->AddPage('P', 'A4');
         $pdf->SetFont('Helvetica', 'B', 11);
         $labInfo = '<h3 style="width:100%;text-align:center;">'.$this->result['shipment']['shipment_code'].'</h3>';
-        $labInfo .= '<p style="font-size:10pt;width:100%;text-align:center;">International Laboratory Branch, Division of Global HIV and TB, Centers for Disease Control and Prevention</p>';
+        $labInfo .= '<p style="font-size:10pt;width:100%;text-align:center;">'.$config->fullInstituteName.'</p>';
         $labInfo .= '<table cellpadding="2" style="width:100%;font-size:8pt;">';
         $labInfo .= '    <tr>';
         $labInfo .= '	     <td style="width:10%;"></td>';
