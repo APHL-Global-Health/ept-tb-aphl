@@ -1356,6 +1356,13 @@ class Application_Service_Shipments {
                 );
             }
             $dbAdapter->delete('reference_result_tb', 'shipment_id = ' . $params['shipmentId']);
+            //Get the count of samples included in this evaluation
+            $sql = $dbAdapter->select()
+                ->from(array('s' => 'shipment'))
+                ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+                ->where("s.shipment_id = ?", $shipmentId)
+                ->where("r.is_excluded = ?", "no");
+            $includedSampleCount = count($dbAdapter->fetchAll($sql));
             $rescoringNecessary = false;
             $maxShipmentScore = 0;
             $newSampleMap = array();
@@ -1397,7 +1404,7 @@ class Application_Service_Shipments {
                     ));
                 if ($newSampleMap[$sampleId]['is_excluded'] == 'no' ||
                     $newSampleMap[$sampleId]['is_exempt'] == 'yes') {
-                    $maxShipmentScore += Application_Service_EvaluationScoring::SAMPLE_MAX_SCORE;
+                    $maxShipmentScore += Application_Service_EvaluationScoring::SAMPLE_MAX_SCORE*Application_Service_EvaluationScoring::DEFAULT_SAMPLE_COUNT/$includedSampleCount;
                 }
             }
             if ($rescoringNecessary) {
@@ -1408,6 +1415,7 @@ class Application_Service_Shipments {
                 $schemeService = new Application_Service_Schemes();
                 $scoringService = new Application_Service_EvaluationScoring();
                 $samplePassStatuses = array();
+
                 foreach ($scoredSubmissions as $scoredSubmission) {
                     $finalResult = $scoredSubmission['final_result'];
                     $sampleRes = $schemeService->getTbSamples($params['shipmentId'],
@@ -1425,7 +1433,8 @@ class Application_Service_Shipments {
                             $newSampleMap[$sampleId]['is_exempt']);
                         $submissionShipmentScore += $scoringService->calculateTbSampleScore(
                             $samplePassStatus,
-                            $sampleRes[$i]['ref_sample_score']);
+                            $sampleRes[$i]['ref_sample_score'],
+                            $includedSampleCount);
                         array_push($samplePassStatuses, $samplePassStatus);
                         $hasBlankResult = $hasBlankResult || !isset($sampleRes[$i]['res_mtb_detected']);
                     }

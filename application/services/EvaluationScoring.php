@@ -10,6 +10,8 @@ class Application_Service_EvaluationScoring {
     const NO_RESULT_SCORE_PERCENT = 25.00;
     const FAIL_SCORE_PERCENT = 0.00;
 
+    const DEFAULT_SAMPLE_COUNT = 5;
+
     public function calculateTbSamplePassStatus($refMtbDetected, $resMtbDetected, $refRifResistance, $resRifResistance,
                                                 $probeD, $probeC, $probeE, $probeB, $spc, $probeA, $isExcluded, $isExempt) {
         $calculatedScore = "fail";
@@ -61,10 +63,10 @@ class Application_Service_EvaluationScoring {
         return $refRifResistance == $resRifResistance;
     }
 
-    public function calculateTbSampleScore($passStatus, $sampleScore) {
+    public function calculateTbSampleScore($passStatus, $sampleScore, $sampleCount=5) {
         switch ($passStatus) {
             case "pass":
-                return self::PASS_SCORE_PERCENT * ($sampleScore / 100.00);
+                return self::PASS_SCORE_PERCENT * ($sampleScore / 100.00 / $sampleCount * self::DEFAULT_SAMPLE_COUNT);
             case "concern":
                 return self::CONCERN_SCORE_PERCENT * ($sampleScore / 100.00);
             case "partial":
@@ -76,7 +78,7 @@ class Application_Service_EvaluationScoring {
             case "excluded":
                 return self::FAIL_SCORE_PERCENT * ($sampleScore / 100.00);
             case "exempt":
-                return self::PASS_SCORE_PERCENT * ($sampleScore / 100.00);
+                return self::PASS_SCORE_PERCENT * ($sampleScore / 100.00 / $sampleCount * self::DEFAULT_SAMPLE_COUNT);
             default:
                 return self::FAIL_SCORE_PERCENT * ($sampleScore / 100.00);
         }

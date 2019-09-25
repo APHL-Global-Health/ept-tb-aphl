@@ -443,6 +443,14 @@ class Application_Service_Evaluation {
             }
         }
         if ($scheme == 'tb') {
+            //Get the count of samples included in this evaluation
+            $sql = $db->select()
+                ->from(array('s' => 'shipment'))
+                ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+                ->where("s.shipment_id = ?", $shipmentId)
+                ->where("r.is_excluded = ?", "no");
+            $includedSampleCount = count($db->fetchAll($sql));
+
             $submissionShipmentScore = 0;
             $scoringService = new Application_Service_EvaluationScoring();
             $samplePassStatuses = array();
@@ -455,9 +463,10 @@ class Application_Service_Evaluation {
                     $sampleRes[$i]['ref_is_excluded'], $sampleRes[$i]['ref_is_exempt']);
                 $submissionShipmentScore += $scoringService->calculateTbSampleScore(
                     $sampleRes[$i]['calculated_score'],
-                    $sampleRes[$i]['ref_sample_score']);
+                    $sampleRes[$i]['ref_sample_score'],
+                    $includedSampleCount);
                 if ($sampleRes[$i]['ref_is_excluded'] == 'no' || $sampleRes[$i]['ref_is_exempt'] == 'yes') {
-                    $maxShipmentScore += $sampleRes[$i]['ref_sample_score'];
+                    $maxShipmentScore += $sampleRes[$i]['ref_sample_score']*Application_Service_EvaluationScoring::DEFAULT_SAMPLE_COUNT/$includedSampleCount;
                 }
                 array_push($samplePassStatuses, $sampleRes[$i]['calculated_score']);
             }
@@ -535,6 +544,14 @@ class Application_Service_Evaluation {
         }
 
         if ($scheme == 'tb') {
+            //Get the count of samples included in this evaluation
+            $sql = $db->select()
+                ->from(array('s' => 'shipment'))
+                ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+                ->where("s.shipment_id = ?", $shipmentId)
+                ->where("r.is_excluded = ?", "no");
+            $includedSampleCount = count($db->fetchAll($sql));
+
             $submissionShipmentScore = 0;
             $scoringService = new Application_Service_EvaluationScoring();
             $samplePassStatuses = array();
@@ -547,9 +564,10 @@ class Application_Service_Evaluation {
                     $sampleRes[$i]['ref_is_excluded'], $sampleRes[$i]['ref_is_exempt']);
                 $submissionShipmentScore += $scoringService->calculateTbSampleScore(
                     $sampleRes[$i]['calculated_score'],
-                    $sampleRes[$i]['ref_sample_score']);
+                    $sampleRes[$i]['ref_sample_score'],
+                    $includedSampleCount);
                 if ($sampleRes[$i]['ref_is_excluded'] == 'no' || $sampleRes[$i]['ref_is_exempt'] == 'yes') {
-                    $maxShipmentScore += $sampleRes[$i]['ref_sample_score'];
+                    $maxShipmentScore += $sampleRes[$i]['ref_sample_score']*Application_Service_EvaluationScoring::DEFAULT_SAMPLE_COUNT/$includedSampleCount;
                 }
                 array_push($samplePassStatuses, $sampleRes[$i]['calculated_score']);
             }
@@ -951,6 +969,15 @@ class Application_Service_Evaluation {
                         );
                     }
                 }
+
+                //Get the count of samples included in this evaluation
+                $sql = $db->select()
+                    ->from(array('s' => 'shipment'))
+                    ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+                    ->where("s.shipment_id = ?", $shipmentId)
+                    ->where("r.is_excluded = ?", "no");
+                $includedSampleCount = count($db->fetchAll($sql));
+
                 $scoringService = new Application_Service_EvaluationScoring();
                 $shipmentScore = 0;
                 $shipmentTestDate = null;
@@ -991,7 +1018,8 @@ class Application_Service_Evaluation {
                         $params['spc'][$i], $params['probeA'][$i], $referenceSample['is_excluded'], $referenceSample['is_exempt']);
                     $shipmentScore += $scoringService->calculateTbSampleScore(
                         $calculatedScorePassStatus,
-                        $referenceSample['sample_score']);
+                        $referenceSample['sample_score'],
+                        $includedSampleCount);
 
                     $db->update('response_result_tb', array(
                         'date_tested' => $dateTested,
@@ -1325,6 +1353,14 @@ class Application_Service_Evaluation {
             }
         }
 
+        //Get the count of samples included in this evaluation
+        $sql = $db->select()
+            ->from(array('s' => 'shipment'))
+            ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+            ->where("s.shipment_id = ?", $shipmentId)
+            ->where("r.is_excluded = ?", "no");
+        $includedSampleCount = count($db->fetchAll($sql));
+
         $i = 0;
         $mapRes = array();
 		$vlGraphResult = array();
@@ -1617,10 +1653,11 @@ class Application_Service_Evaluation {
                     array_push($sampleStatuses, $sampleScoreStatus);
                     $sampleScore = $scoringService->calculateTbSampleScore(
                         $sampleScoreStatus,
-                        $tbResult['sample_score']);
+                        $tbResult['sample_score'],
+                        $includedSampleCount);
                     $shipmentScore += $sampleScore;
                     if ($tbResult['ref_is_excluded'] == 'no' || $tbResult['ref_is_exempt'] == 'yes') {
-                        $maxShipmentScore += $tbResult['sample_score'];
+                        $maxShipmentScore += $tbResult['sample_score']*Application_Service_EvaluationScoring::DEFAULT_SAMPLE_COUNT/$includedSampleCount;
                     }
                     $consensusTbMtbDetected = $tbResultsExpected[$tbResult['sample_id']]['mtb_detected'];
                     $consensusTbRifResistance = $tbResultsExpected[$tbResult['sample_id']]['rif_resistance'];
@@ -2481,6 +2518,14 @@ class Application_Service_Evaluation {
         $scoringService = new Application_Service_EvaluationScoring();
         $maxTotalScore = 0;
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        //Get the count of samples included in this evaluation
+        $sql = $db->select()
+            ->from(array('s' => 'shipment'))
+            ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
+            ->where("s.shipment_id = ?", $shipmentId)
+            ->where("r.is_excluded = ?", "no");
+        $includedSampleCount = count($db->fetchAll($sql));
+
         foreach ($shipmentResult as $shipment) {
             $createdOnUser = explode(" ", $shipment['shipment_test_report_date']);
             $results = $schemeService->getTbSamples($shipmentId, $shipment['participant_id']);
@@ -2502,11 +2547,12 @@ class Application_Service_Evaluation {
 
                 $shipmentScore += $scoringService->calculateTbSampleScore(
                     $calculatedScorePassStatus,
-                    $result['ref_sample_score']);
+                    $result['ref_sample_score'],
+                    $includedSampleCount);
                 $db->update('response_result_tb', array('calculated_score' => $calculatedScorePassStatus),
                     "shipment_map_id = " . $result['map_id'] . " and sample_id = " . $result['sample_id']);
                 if ($result['ref_is_excluded'] == 'no' || $result['ref_is_exempt'] == 'yes') {
-                    $maxShipmentScore += $result['ref_sample_score'];
+                    $maxShipmentScore += $result['ref_sample_score']*Application_Service_EvaluationScoring::DEFAULT_SAMPLE_COUNT/$includedSampleCount;
                 }
                 array_push($samplePassStatuses, $calculatedScorePassStatus);
                 $hasBlankResult = $hasBlankResult || !isset($result['res_mtb_detected']);

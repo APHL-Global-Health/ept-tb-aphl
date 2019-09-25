@@ -24,7 +24,7 @@ class Application_Model_DbTable_Shipments extends Zend_Db_Table_Abstract {
     }
 
     public function getShipmentRowInfo($sId) {
-		$result = $this->getAdapter()
+        $result = $this->getAdapter()
             ->fetchRow(
                 $this->getAdapter()->select()
                     ->from(array('s' => 'shipment'))
@@ -32,21 +32,34 @@ class Application_Model_DbTable_Shipments extends Zend_Db_Table_Abstract {
                     ->join(array('sl' => 'scheme_list'), 'sl.scheme_id=s.scheme_type', array('sl.scheme_name'))
                     ->group('s.shipment_id')
                     ->where("s.shipment_id = ?", $sId));
-		if ($result != "") {
-			$tableName = "reference_result_dts";
-			if ($result['scheme_type'] == 'vl') {
-			    $tableName = "reference_result_vl";
-			} else if($result['scheme_type'] == 'eid') {
-				$tableName = "reference_result_eid";
-			} else if($result['scheme_type'] == 'dts') {
-				$tableName = "reference_result_dts";
-			}
-			$result['referenceResult'] = $this->getAdapter()->fetchAll(
-			    $this->getAdapter()->select()
+        if ($result != "") {
+            $tableName = "reference_result_dts";
+            if ($result['scheme_type'] == 'vl') {
+                $tableName = "reference_result_vl";
+            } else if($result['scheme_type'] == 'eid') {
+                $tableName = "reference_result_eid";
+            } else if($result['scheme_type'] == 'dts') {
+                $tableName = "reference_result_dts";
+            }
+            $result['referenceResult'] = $this->getAdapter()->fetchAll(
+                $this->getAdapter()->select()
                     ->from(array($tableName))
                     ->where('shipment_id = ? ',$result['shipment_id']));
-		}
-		return $result;
+        }
+        return $result;
+    }
+
+    public function getSampleCount($shipmentID, $lessExcluded = true, $lessExempt = true) {
+        $query = $this->getAdapter()->select()
+                    ->from(array('r' => 'reference_result_tb'))
+                    ->where("s.shipment_id = ?", $shipmentID);
+
+        if($lessExcluded) $query->where("is_excluded = 'no'");
+        if($lessExempt) $query->where("is_exempt = 'no'");
+
+        $result = $this->getAdapter()->fetchRow($query);
+
+        return count($result);
     }
 
     public function getTbShipmentRowInfo($distributionId) {
@@ -1769,7 +1782,7 @@ class Application_Model_DbTable_Shipments extends Zend_Db_Table_Abstract {
     }
 
     public function fetchParticipantSchemesBySchemeId($parameters){
-	/* Array of database columns which should be read and sent back to DataTables. Use a space where
+	    /* Array of database columns which should be read and sent back to DataTables. Use a space where
          * you want to insert a non-database field (for example a counter or static image)
          */
 
