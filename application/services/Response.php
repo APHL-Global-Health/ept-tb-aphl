@@ -360,7 +360,7 @@ class Application_Service_Response {
                 $mapData['shipment_test_report_date'] = new Zend_Db_Expr('now()');
             }
 
-            $mapData['qc_done'] = $params['qcDone'];
+            if(isset($params['qcDone']))$mapData['qc_done'] = $params['qcDone'];
             if (isset($mapData['qc_done']) && trim($mapData['qc_done']) == "yes") {
                 $mapData['qc_date'] =  Application_Service_Common::ParseDate($params['qcDate']);
                 $mapData['qc_done_by'] = trim($params['qcDoneBy']);
