@@ -938,6 +938,7 @@ class Application_Service_Evaluation {
                     $mapData['qc_done_by'] = trim($params['qcDoneBy']);
                     $mapData['qc_created_on'] = new Zend_Db_Expr('now()');
                 } else {
+                    $mapData['qc_done'] = "no";
                     $mapData['qc_date'] = null;
                     $mapData['qc_done_by'] = null;
                     $mapData['qc_created_on'] = null;
@@ -974,7 +975,7 @@ class Application_Service_Evaluation {
                 $sql = $db->select()
                     ->from(array('s' => 'shipment'))
                     ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
-                    ->where("s.shipment_id = ?", $shipmentId)
+                    ->where("s.shipment_id = ?", $params['shipmentId'])
                     ->where("r.is_excluded = ?", "no");
                 $includedSampleCount = count($db->fetchAll($sql));
 
@@ -1005,7 +1006,6 @@ class Application_Service_Evaluation {
                             );
                         }
                     }
-                    $cartridgeExpirationDate = Application_Service_Common::ParseDate($params['expiryDate']);
 
                     $db = Zend_Db_Table_Abstract::getDefaultAdapter();
                     $sql = $db->select()->from(array('reference_result_tb'))
@@ -1037,7 +1037,7 @@ class Application_Service_Evaluation {
                         'instrument_last_calibrated_on' => $instrumentLastCalibratedOn,
                         'module_name' => $params['moduleName'][$i],
                         'instrument_user' => $params['instrumentUser'][$i],
-                        'cartridge_expiration_date' => $cartridgeExpirationDate,
+                        'cartridge_expiration_date' => date("Y-m-d H:i:s",strtotime($params['expiryDate'])),
                         'reagent_lot_id' => $params['mtbRifKitLotNo'],
                         'error_code' => $params['errorCode'][$i],
                         'updated_by' => $admin,
