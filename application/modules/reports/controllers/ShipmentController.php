@@ -64,10 +64,10 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                         true
                     );
                     $submissionForm->SetTextColor(0, 0, 0);
-                    $submissionForm->SetXY(85, 46.5);
+                    $submissionForm->SetXY(43, 46.5);
                     $submissionForm->Write(0, $shipmentCode);
-                    $submissionForm->SetXY(154, 46.5);
-                    $submissionForm->Write(0, $templateData["country"][$participant["country"]]["country_name"]);
+                    $submissionForm->SetXY(100, 46.5);
+                    $submissionForm->Write(0, $participant["participant_name"]);
                     $submissionForm->SetXY(237, 46.5);
                     $submissionForm->Write(0, $participant["due_date"]);
 
@@ -80,33 +80,41 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                         true
                     );
 
-                    $submissionForm->SetXY(70, 70.5);
-                    $submissionForm->Write(0, $participant["participant_name"]);
-                    $submissionForm->SetXY(70, 76);
+                    $submissionForm->SetXY(67, 64);
                     $submissionForm->Write(0, $participant["pt_id"]);
-                    $submissionForm->SetXY(70, 81.5);
+                    $submissionForm->SetXY(67, 69.5);
                     $submissionForm->Write(0, $participant["username"]);
-                    $submissionForm->SetXY(70, 88);
+                    $submissionForm->SetXY(67, 75.5);
                     $submissionForm->Write(0, $participant["password"]);
 
                     $submissionForm->SetFont(
                         $smallFontName,
-                        'B',
-                        $smallFontSize,
+                        'N',
+                        7.5,
                         '',
                         'default',
                         true
                     );
-                    $submissionForm->SetXY(28, 141);
-                    $submissionForm->Write(0, $templateData["sample"][0]["sample_label"]);
-                    $submissionForm->SetXY(28, 148);
-                    $submissionForm->Write(0, $templateData["sample"][1]["sample_label"]);
+                    $submissionForm->SetXY(28, 130);
+                    $submissionForm->Write(0, substr($templateData["sample"][0]["sample_label"], 0, 10));
+                    $submissionForm->SetXY(28, 134);
+                    $submissionForm->Write(0, substr($templateData["sample"][0]["sample_label"], 11));
+                    $submissionForm->SetXY(28, 140.5);
+                    $submissionForm->Write(0, substr($templateData["sample"][1]["sample_label"], 0, 10));
+                    $submissionForm->SetXY(28, 144.5);
+                    $submissionForm->Write(0, substr($templateData["sample"][1]["sample_label"], 11));
+                    $submissionForm->SetXY(28, 151);
+                    $submissionForm->Write(0, substr($templateData["sample"][2]["sample_label"], 0, 10));
                     $submissionForm->SetXY(28, 155);
-                    $submissionForm->Write(0, $templateData["sample"][2]["sample_label"]);
-                    $submissionForm->SetXY(28, 162);
-                    $submissionForm->Write(0, $templateData["sample"][3]["sample_label"]);
-                    $submissionForm->SetXY(28, 169);
-                    $submissionForm->Write(0, $templateData["sample"][4]["sample_label"]);
+                    $submissionForm->Write(0, substr($templateData["sample"][2]["sample_label"], 11));
+                    $submissionForm->SetXY(28, 161.5);
+                    $submissionForm->Write(0, substr($templateData["sample"][3]["sample_label"], 0, 10));
+                    $submissionForm->SetXY(28, 165.5);
+                    $submissionForm->Write(0, substr($templateData["sample"][3]["sample_label"], 11));
+                    $submissionForm->SetXY(28, 172);
+                    $submissionForm->Write(0, substr($templateData["sample"][4]["sample_label"], 0, 10));
+                    $submissionForm->SetXY(28, 176);
+                    $submissionForm->Write(0, substr($templateData["sample"][4]["sample_label"], 11));
 
                     if ($submissionForm->numPages > 1) {
                         for ($i = 2; $i <= $submissionForm->numPages; $i++) {
