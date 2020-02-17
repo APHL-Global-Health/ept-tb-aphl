@@ -64,11 +64,11 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                         true
                     );
                     $submissionForm->SetTextColor(0, 0, 0);
-                    $submissionForm->SetXY(85, 19.5);
+                    $submissionForm->SetXY(85, 46.5);
                     $submissionForm->Write(0, $shipmentCode);
-                    $submissionForm->SetXY(154, 19.5);
+                    $submissionForm->SetXY(154, 46.5);
                     $submissionForm->Write(0, $templateData["country"][$participant["country"]]["country_name"]);
-                    $submissionForm->SetXY(237, 19.5);
+                    $submissionForm->SetXY(237, 46.5);
                     $submissionForm->Write(0, $participant["due_date"]);
 
                     $submissionForm->SetFont(
@@ -80,13 +80,13 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                         true
                     );
 
-                    $submissionForm->SetXY(70, 38);
+                    $submissionForm->SetXY(70, 70.5);
                     $submissionForm->Write(0, $participant["participant_name"]);
-                    $submissionForm->SetXY(70, 49);
+                    $submissionForm->SetXY(70, 76);
                     $submissionForm->Write(0, $participant["pt_id"]);
-                    $submissionForm->SetXY(70, 60);
+                    $submissionForm->SetXY(70, 81.5);
                     $submissionForm->Write(0, $participant["username"]);
-                    $submissionForm->SetXY(70, 73.5);
+                    $submissionForm->SetXY(70, 88);
                     $submissionForm->Write(0, $participant["password"]);
 
                     $submissionForm->SetFont(
@@ -97,15 +97,15 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                         'default',
                         true
                     );
-                    $submissionForm->SetXY(28, 127);
-                    $submissionForm->Write(0, $templateData["sample"][0]["sample_label"]);
-                    $submissionForm->SetXY(28, 134);
-                    $submissionForm->Write(0, $templateData["sample"][1]["sample_label"]);
                     $submissionForm->SetXY(28, 141);
-                    $submissionForm->Write(0, $templateData["sample"][2]["sample_label"]);
+                    $submissionForm->Write(0, $templateData["sample"][0]["sample_label"]);
                     $submissionForm->SetXY(28, 148);
-                    $submissionForm->Write(0, $templateData["sample"][3]["sample_label"]);
+                    $submissionForm->Write(0, $templateData["sample"][1]["sample_label"]);
                     $submissionForm->SetXY(28, 155);
+                    $submissionForm->Write(0, $templateData["sample"][2]["sample_label"]);
+                    $submissionForm->SetXY(28, 162);
+                    $submissionForm->Write(0, $templateData["sample"][3]["sample_label"]);
+                    $submissionForm->SetXY(28, 169);
                     $submissionForm->Write(0, $templateData["sample"][4]["sample_label"]);
 
                     if ($submissionForm->numPages > 1) {
@@ -125,7 +125,7 @@ class Reports_ShipmentController extends Zend_Controller_Action {
                                     true
                                 );
                                 $peccDetailsString = "If you are experiencing challenges testing the panel or submitting results please contact ";
-                                $submissionForm->SetXY(28, 170.9);
+                                $submissionForm->SetXY(28, 176);
                                 $peccDetails = array_unique(explode(",", $templateData["country"][$participant["country"]]["pecc_details"]));
                                 for ($ii = 0; $ii < count($peccDetails); $ii++) {
                                     if ($ii > 0) {
