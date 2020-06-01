@@ -1314,7 +1314,7 @@ class Application_Service_Shipments {
             $sql = $dbAdapter->select()
                 ->from(array('s' => 'shipment'))
                 ->join(array('r' => 'reference_result_tb'), 's.shipment_id=r.shipment_id')
-                ->where("s.shipment_id = ?", $shipmentId)
+                ->where("s.shipment_id = ?", $params['shipmentId'])
                 ->where("r.is_excluded = ?", "no");
             $includedSampleCount = count($dbAdapter->fetchAll($sql));
             $rescoringNecessary = false;
