@@ -12,7 +12,10 @@ defined('APPLICATION_ENV')
 // Define path to u directory
 defined('UPLOAD_PATH')
     || define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/uploads'));
-    
+
+defined('K_PATH_CACHE')
+    || define('K_PATH_CACHE', realpath(dirname(__FILE__) . '/uploads/tmp'));
+
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../library'),

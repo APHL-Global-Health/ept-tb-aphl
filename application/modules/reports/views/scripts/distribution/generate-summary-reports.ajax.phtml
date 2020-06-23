@@ -65,18 +65,13 @@ if ($this->result['shipment'] != "") {
             } else if ($this->schemeType == 'eid') {
                 $html='<h3 style="font-weight: bold;text-align:center;">HIV-1 Proficiency Testing Program for Early Infant Diagnosis using Dried Blood Spot</h3>';
             } else if($this->schemeType == 'tb') {
-                $html = '<h3 style="background-color:#000000;color:#ffffff;font-weight: bold;text-align:center;">';
-                $html .= '<br />XPERT MTB/RIF ASSAY PROFICIENCY TEST PROGRAM PARTICIPANT’S RESULTS SUMMARY<br /></h3>';
             } else {
                 $html='<h3 style="font-weight: bold;text-align:center;">Proficiency Testing Program for Anti-HIV Antibodies Diagnostics using '.$this->scheme_name.'</h3>';
             }
 
             if($this->schemeType != 'tb') {
-                $this->writeHTMLCell(0, 0, 30, 30, $html, 0, 0, 0, true, 'J', true);
                 $html = '<hr/>';
                 $this->writeHTMLCell(0, 0, 10, 45, $html, 0, 0, 0, true, 'J', true);
-            } else {
-                $this->writeHTMLCell(0, 10, 15, 20, $html, 0, 0, 0, true, 'J', true);
             }
         }
 
@@ -110,7 +105,7 @@ if ($this->result['shipment'] != "") {
 
     // set margins
     if ($this->result['shipment']['scheme_type'] == 'tb') {
-        $pdf->SetMargins(PDF_MARGIN_LEFT, 35, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
         $pdf->SetHeaderMargin(1);
         $pdf->SetFooterMargin(1);
     } else {
@@ -375,6 +370,14 @@ if ($this->result['shipment'] != "") {
     }  else if ($this->result['shipment']['scheme_type'] == 'tb') {
         $pdf->AddPage('P', 'A4');
         $pdf->SetFont('Helvetica', 'B', 11);
+        $firstPageHead = '<div style="text-align:center;font-size:9pt;">';
+        $firstPageHead .= '<img src="/images/country/moh-logo.png" width="80px"><br>';
+        $firstPageHead .= '<strong>MINISTRY OF HEALTH<br>';
+        $firstPageHead .= 'NATIONAL PUBLIC HEALTH LABORATORY<br>';
+        $firstPageHead .= 'KENYA EXTERNAL QUALITY ASSESSMENT SCHEME (KNEQAS)<br>';
+        $firstPageHead .= 'XPERT MTB/RIF PROFICIENCY TESTING</strong><br>';
+        $firstPageHead .= 'P.O Box 20750 - 00202 NAIROBI Email: nphlpt@nphl.go.ke Help Desk: helpdesk.nphl.go.ke<br>';
+        $firstPageHead .= '</div>';
         $labInfo = '<h3 style="width:100%;text-align:center;">'.$this->result['shipment']['shipment_code'].'</h3>';
         $labInfo .= '<p style="font-size:10pt;width:100%;text-align:center;">'.$config->fullInstituteName.'</p>';
         $labInfo .= '<table cellpadding="2" style="width:100%;font-size:8pt;">';
@@ -475,7 +478,7 @@ if ($this->result['shipment'] != "") {
         $labInfo .= '	     <td style="width:100%;" colspan="'.(count($this->result['tbReportSummary']) + 1).'">* Uninterpretable result = invalid, error, or no result</td>';
         $labInfo .= '    </tr>';
         $labInfo .= '</table><br />';
-        $pdf->writeHTML($labInfo, true, false, true, false, '');
+        $pdf->writeHTML($firstPageHead.$labInfo, true, false, true, false, '');
     } else {
         $pdf->AddPage('P', 'A4');
         $pdf->SetFont('times', 'B', 12);
