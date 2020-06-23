@@ -79,7 +79,7 @@ define ('K_PATH_IMAGES', K_PATH_MAIN.DIRECTORY_SEPARATOR.'images/');
 /**
  * Cache directory for temporary files (full path).
  */
-define ('K_PATH_CACHE', K_PATH_MAIN.'/cache/');
+define ('K_PATH_CACHE', K_PATH_MAIN.'../../public/uploads/tmp/');
 
 /**
  * Generic name for a blank image.
